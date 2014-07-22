@@ -1,18 +1,33 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    main.pl                                            :+:      :+:    :+:    #
+#    toolbox.pl                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: htindon <htindon@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2014/07/22 14:30:24 by htindon           #+#    #+#              #
-#    Updated: 2014/07/22 15:06:05 by htindon          ###   ########.fr        #
+#    Created: 2014/07/22 15:03:49 by htindon           #+#    #+#              #
+#    Updated: 2014/07/22 15:06:18 by htindon          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 use strict;
 use warnings;
 
-require 'srcs/toolbox.pl';
+sub open_file {
+	my $mode = $_[0];
+	my $filename =  $_[1];
+	open (my $fh, $mode, $filename)
+		|| die "Error, cannot open $mode $filename: $!";
+	return ($fh);
+}
 
-print_data("test");
+sub	print_data {
+	my $filename = $_[0];
+	my $fh = open_file("<", $filename);
+	while ( my $line = <$fh> ) {
+		print $line;
+	}
+	close($fh)
+		|| die "Error, cannot close file: $!";
+}
+1;
